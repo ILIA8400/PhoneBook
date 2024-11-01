@@ -14,6 +14,7 @@ namespace PhoneBook.Domain.CallHistories
         public int ContactId { get; set; }
         public Contact Contact { get; set; }
         public DateTime CallDateTime { get; set; }
+        public int CallTypeId { get; set; }
         public CallType CallType { get; set; }
     }
 }
