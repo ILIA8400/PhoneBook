@@ -10,7 +10,7 @@ namespace PhoneBook.Domain.BaseEntities
     {
         public BaseEntity()
         {
-            CreatedDate = DateTime.Now;
+            CreatedDate = DateTime.UtcNow;
         }
 
         public int Id { get; set; }
