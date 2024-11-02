@@ -6,13 +6,8 @@ using System.Threading.Tasks;
 
 namespace PhoneBook.Domain.BaseEntities
 {
-    public class BaseEntity
+    public abstract class BaseEntity
     {
-        public BaseEntity()
-        {
-            CreatedDate = DateTime.UtcNow;
-        }
-
         public int Id { get; set; }
         public DateTime CreatedDate { get; set; }
         public DateTime UpdatedDate { get; set;}
