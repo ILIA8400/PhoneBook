@@ -1,4 +1,5 @@
-﻿using PhoneBook.Domain.Group;
+﻿using PhoneBook.Domain.BaseEntities;
+using PhoneBook.Domain.Group;
 using PhoneBook.Domain.Groups;
 using System;
 using System.Collections.Generic;
@@ -9,9 +10,8 @@ using System.Threading.Tasks;
 
 namespace PhoneBook.Domain.Contacts
 {
-    public class Contact
+    public class Contact : BaseEntity
     {
-        public int Id { get; set; }
         public string Name { get; set; }
         public long PhoneNumber{ get; set; }
         public string? Email { get; set; }
