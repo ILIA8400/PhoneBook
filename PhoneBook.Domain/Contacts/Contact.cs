@@ -1,5 +1,4 @@
 ﻿using PhoneBook.Domain.BaseEntities;
-using PhoneBook.Domain.Group;
 using PhoneBook.Domain.Groups;
 using System;
 using System.Collections.Generic;

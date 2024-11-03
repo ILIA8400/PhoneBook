@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PhoneBook.Domain.Group
+namespace PhoneBook.Domain.Groups
 {
     public class ContactGroup : BaseEntity
     {
