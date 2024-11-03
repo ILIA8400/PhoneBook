@@ -1,5 +1,8 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using PhoneBook.Api.Models;
+using PhoneBook.Identity.Models;
 
 namespace PhoneBook.Web.Controllers
 {
@@ -7,26 +10,62 @@ namespace PhoneBook.Web.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly SignInManager<ApplicationUser> _signInManager;
+
+        public UserController(UserManager<ApplicationUser> userManager,SignInManager<ApplicationUser> signInManager)
+        {
+            this._userManager = userManager;
+            this._signInManager = signInManager;
+        }
 
         // Post: api/User/Register
         [HttpPost("Register")]
-        public async Task<IActionResult> Register()
+        public async Task<IActionResult> Register(RegisterVM model)
         {
-            return Ok();
+            if (!ModelState.IsValid)
+            {
+                return BadRequest("Email or Password not valid !!");
+            }
+
+            var user = new ApplicationUser
+            {
+                UserName = model.Email,
+                Email = model.Email
+            };
+
+            var result = await _userManager.CreateAsync(user,model.Password);
+            if (result.Succeeded)
+            {
+                return Ok("Your registration process has been completed successfully.");
+            }            
+            return BadRequest(result.Errors.Select(c=>c.Description));
+            
         }
 
         // Post: api/User/Login
         [HttpPost("Login")]
-        public async Task<IActionResult> Login()
+        public async Task<IActionResult> Login(LoginVM model)
         {
-            return BadRequest();
+            if (!ModelState.IsValid)
+            {
+                return BadRequest("Model is not valid !");
+            }
+          
+            var result = await _signInManager.PasswordSignInAsync(model.Email,model.Password,false,false);
+            if (result.Succeeded)
+            {
+                return Ok("Login was successful.");
+            }
+            return BadRequest("User Name or Password is not valid !!");
         }
 
         // Post api/User/Logout
         [HttpPost("Logout")]
         public async Task<IActionResult> Logout()
         {
-            return NoContent();
+            await _signInManager.SignOutAsync();
+            return Ok("You are logout");
         }
 
     }
