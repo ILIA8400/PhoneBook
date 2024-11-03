@@ -12,7 +12,7 @@ namespace PhoneBook.Domain.Contacts
     public class Contact : BaseEntity
     {
         public string Name { get; set; }
-        public long PhoneNumber{ get; set; }
+        public string PhoneNumber{ get; set; }
         public string? Email { get; set; }
         public string? Address { get; set; }
         public ICollection<ContactGroup>? Groups { get; set; }

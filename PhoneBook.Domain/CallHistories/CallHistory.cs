@@ -11,9 +11,11 @@ namespace PhoneBook.Domain.CallHistories
 {
     public class CallHistory : BaseEntity
     {
-        public int ContactId { get; set; }
-        public Contact Contact { get; set; }
+        public string? PhoneNumber { get; set; }
+        public int? ContactId { get; set; }
+        public Contact? Contact { get; set; }
         public DateTime CallDateTime { get; set; }
+        public string? Note { get; set; }
         public int CallTypeId { get; set; }
         public CallType CallType { get; set; }
     }
