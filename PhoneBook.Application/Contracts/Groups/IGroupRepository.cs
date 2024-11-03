@@ -1,5 +1,5 @@
 ﻿using PhoneBook.Application.Contracts.BaseRepositories;
-using PhoneBook.Domain.Group;
+using PhoneBook.Domain.Groups;
 using System;
 using System.Collections.Generic;
 using System.Linq;
