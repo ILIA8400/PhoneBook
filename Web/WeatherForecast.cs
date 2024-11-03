@@ -1,4 +1,4 @@
-namespace PhoneBook.Web
+namespace Web
 {
     public class WeatherForecast
     {

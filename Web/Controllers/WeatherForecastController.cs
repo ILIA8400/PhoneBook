@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 
-namespace PhoneBook.Web.Controllers
+namespace Web.Controllers
 {
     [ApiController]
     [Route("[controller]")]
