@@ -16,7 +16,7 @@ namespace PhoneBook.Application.Commands.Contacts
         public required string Name { get; set; }
         [Phone]
         [Length(11, 11)]
-        public required long PhoneNumber { get; set; }
+        public required string PhoneNumber { get; set; }
         [EmailAddress]
         public string? Email { get; set; }
         [StringLength(255)]
