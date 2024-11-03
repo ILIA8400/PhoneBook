@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PhoneBook.Infra.Data
+namespace PhoneBook.Infra
 {
     public class PhoneBookDbContext : DbContext
     {
@@ -20,7 +20,7 @@ namespace PhoneBook.Infra.Data
         #endregion
 
         #region Ctor
-        public PhoneBookDbContext(DbContextOptions options) : base(options)
+        public PhoneBookDbContext(DbContextOptions<PhoneBookDbContext> options) : base(options)
         {
         }
         #endregion
@@ -29,7 +29,7 @@ namespace PhoneBook.Infra.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(PhoneBookDbContext).Assembly);
-        } 
+        }
         #endregion
     }
 }

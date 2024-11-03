@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PhoneBook.Infra.Identity.Models
+namespace PhoneBook.Identity.Models
 {
     public class ApplicationUser : IdentityUser
     {

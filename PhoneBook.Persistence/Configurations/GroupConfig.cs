@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PhoneBook.Infra.Data.Configurations
+namespace PhoneBook.Infra.Configurations
 {
     public class GroupConfig : IEntityTypeConfiguration<ContactGroup>
     {
@@ -21,10 +21,10 @@ namespace PhoneBook.Infra.Data.Configurations
             builder.HasKey(c => c.Id);
 
             // Config GroupName Property
-            builder.Property(c=>c.GroupName).IsRequired().HasMaxLength(55).HasColumnName("group_name");
+            builder.Property(c => c.GroupName).IsRequired().HasMaxLength(55).HasColumnName("group_name");
 
             // Config Id Property
-            builder.Property(c=>c.Id).HasColumnName("id");
+            builder.Property(c => c.Id).HasColumnName("id");
         }
     }
 }

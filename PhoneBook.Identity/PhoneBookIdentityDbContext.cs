@@ -1,13 +1,13 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using PhoneBook.Infra.Identity.Models;
+using PhoneBook.Identity.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PhoneBook.Infra.Identity
+namespace PhoneBook.Identity
 {
     public class PhoneBookIdentityDbContext : IdentityDbContext<ApplicationUser>
     {
@@ -16,16 +16,9 @@ namespace PhoneBook.Infra.Identity
         #endregion
 
         #region Ctor
-        public PhoneBookIdentityDbContext(DbContextOptions options) : base(options)
+        public PhoneBookIdentityDbContext(DbContextOptions<PhoneBookIdentityDbContext> options) : base(options)
         {
         }
-        #endregion
-
-        #region OnModelCreating
-        protected override void OnModelCreating(ModelBuilder builder)
-        {
-            builder.ApplyConfigurationsFromAssembly(typeof(PhoneBookIdentityDbContext).Assembly);
-        } 
-        #endregion
+        #endregion       
     }
 }

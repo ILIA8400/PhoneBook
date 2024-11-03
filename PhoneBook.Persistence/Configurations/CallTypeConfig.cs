@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PhoneBook.Infra.Data.Configurations
+namespace PhoneBook.Infra.Configurations
 {
     public class CallTypeConfig : IEntityTypeConfiguration<CallType>
     {
@@ -27,14 +27,17 @@ namespace PhoneBook.Infra.Data.Configurations
             builder.HasData(
                 new CallType
                 {
+                    Id = 1,
                     Name = "Missed Call"
                 },
                 new CallType
                 {
+                    Id = 2,
                     Name = "Outgoing Call"
                 },
                 new CallType
                 {
+                    Id = 3,
                     Name = "Incoming Call"
                 }
             );

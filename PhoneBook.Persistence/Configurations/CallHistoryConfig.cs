@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PhoneBook.Infra.Data.Configurations
+namespace PhoneBook.Infra.Configurations
 {
     public class CallHistoryConfig : IEntityTypeConfiguration<CallHistory>
     {

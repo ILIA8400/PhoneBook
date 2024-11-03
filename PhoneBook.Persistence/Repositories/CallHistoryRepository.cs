@@ -1,31 +1,31 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using PhoneBook.Application.Contracts.Groups;
-using PhoneBook.Domain.Groups;
+using PhoneBook.Application.Contracts.CallHistories;
+using PhoneBook.Domain.CallHistories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PhoneBook.Infra.Data.Repositories
+namespace PhoneBook.Infra.Repositories
 {
-    public class GroupRepository : IGroupRepository
+    public class CallHistoryRepository : ICallHistoryRepository
     {
         private readonly PhoneBookDbContext _context;
 
-        public GroupRepository(PhoneBookDbContext context)
+        public CallHistoryRepository(PhoneBookDbContext context)
         {
             _context = context;
         }
 
-        public async Task<ContactGroup> Add(ContactGroup entity)
+        public async Task<CallHistory> Add(CallHistory entity)
         {
             await _context.AddAsync(entity);
             await _context.SaveChangesAsync();
             return entity;
         }
 
-        public async Task Delete(ContactGroup entity)
+        public async Task Delete(CallHistory entity)
         {
             _context.Remove(entity);
             await _context.SaveChangesAsync();
@@ -37,17 +37,17 @@ namespace PhoneBook.Infra.Data.Repositories
             return entity != null;
         }
 
-        public async Task<ContactGroup> Get(int id)
+        public async Task<CallHistory> Get(int id)
         {
-            return await _context.Groups.FindAsync(id);
+            return await _context.CallHistories.FindAsync(id);
         }
 
-        public async Task<IReadOnlyList<ContactGroup>> GetAll()
+        public async Task<IReadOnlyList<CallHistory>> GetAll()
         {
-            return await _context.Groups.ToListAsync();
+            return await _context.CallHistories.ToListAsync();
         }
 
-        public async Task Update(ContactGroup entity)
+        public async Task Update(CallHistory entity)
         {
             _context.Entry(entity).State = EntityState.Modified;
             await _context.SaveChangesAsync();
