@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using PhoneBook.Application.Contracts.Groups;
-using PhoneBook.Domain.Groups;
+using PhoneBook.Application.Contracts.Contacts;
+using PhoneBook.Domain.Contacts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,23 +9,23 @@ using System.Threading.Tasks;
 
 namespace PhoneBook.Infra.Repositories
 {
-    public class GroupRepository : IGroupRepository
+    public class ContactRepository : IContactRepository
     {
         private readonly PhoneBookDbContext _context;
 
-        public GroupRepository(PhoneBookDbContext context)
+        public ContactRepository(PhoneBookDbContext context)
         {
             _context = context;
         }
 
-        public async Task<ContactGroup> Add(ContactGroup entity)
+        public async Task<Contact> Add(Contact entity)
         {
             await _context.AddAsync(entity);
             await _context.SaveChangesAsync();
             return entity;
         }
 
-        public async Task Delete(ContactGroup entity)
+        public async Task Delete(Contact entity)
         {
             _context.Remove(entity);
             await _context.SaveChangesAsync();
@@ -37,17 +37,22 @@ namespace PhoneBook.Infra.Repositories
             return entity != null;
         }
 
-        public async Task<ContactGroup> Get(int id)
+        public async Task<Contact> Get(int id)
         {
-            return await _context.Groups.FindAsync(id);
+            return await _context.Contacts.FindAsync(id);
         }
 
-        public async Task<IReadOnlyList<ContactGroup>> GetAll()
+        public async Task<IReadOnlyList<Contact>> GetAll()
         {
-            return await _context.Groups.ToListAsync();
+            return await _context.Contacts.ToListAsync();
         }
 
-        public async Task Update(ContactGroup entity)
+        public async Task<List<Contact>> GetContactsForUserAsync(string userId)
+        {
+            return await _context.Contacts.Where(c=>c.UserId == userId).ToListAsync();
+        }
+
+        public async Task Update(Contact entity)
         {
             _context.Entry(entity).State = EntityState.Modified;
             await _context.SaveChangesAsync();
