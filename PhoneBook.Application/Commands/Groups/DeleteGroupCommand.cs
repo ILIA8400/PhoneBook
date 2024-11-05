@@ -9,5 +9,7 @@ namespace PhoneBook.Application.Commands.Groups
 {
     public class DeleteGroupCommand : IRequest<bool>
     {
+        public int Id { get; set; }
+        public string UserId { get; set; }
     }
 }

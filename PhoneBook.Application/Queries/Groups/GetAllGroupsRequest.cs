@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using PhoneBook.Domain.Groups;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,9 +8,8 @@ using System.Threading.Tasks;
 
 namespace PhoneBook.Application.Queries.Groups
 {
-    public class GetGroupByNameQuery : IRequest<bool>
+    public class GetAllGroupsRequest : IRequest<List<ContactGroup>>
     {
-        public string Name { get; set; }
         public string UserId { get; set; }
     }
 }

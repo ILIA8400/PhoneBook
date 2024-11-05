@@ -10,5 +10,6 @@ namespace PhoneBook.Application.Contracts.Groups
 {
     public interface IGroupRepository : IGenericRepository<ContactGroup>
     {
+        Task<List<ContactGroup>> GetAllContactGroupUser(string user);
     }
 }

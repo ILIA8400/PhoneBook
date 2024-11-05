@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace PhoneBook.Application.Handlers.Contacts
 {
-    public class DeleteContactHandler : IRequestHandler<DeleteContactCommand>
+    public class DeleteContactHandler : IRequestHandler<DeleteContactCommand,string>
     {
         private readonly IContactRepository _repository;
 
@@ -18,15 +18,17 @@ namespace PhoneBook.Application.Handlers.Contacts
             _repository = repository;
         }
 
-        public async Task Handle(DeleteContactCommand request, CancellationToken cancellationToken)
+        public async Task<string> Handle(DeleteContactCommand request, CancellationToken cancellationToken)
         {
-            var entity = await _repository.Get(request.Id);
+            var contacts = await _repository.GetContactsForUserAsync(request.UserId);
+            var entity = contacts.FirstOrDefault(c=>c.Id == request.Id);
             if (entity == null)
             {
                 throw new Exception("Entity Not Found.");
             }
 
             await _repository.Delete(entity);
+            return "Contact was deleted.";
         }
     }
 }

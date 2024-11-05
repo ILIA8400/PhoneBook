@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace PhoneBook.Application.Handlers.Contacts
 {
-    public class UpdateContactHandler : IRequestHandler<UpdateContactCommand>
+    public class UpdateContactHandler : IRequestHandler<UpdateContactCommand,string>
     {
         private readonly IContactRepository _repository;
 
@@ -18,9 +18,10 @@ namespace PhoneBook.Application.Handlers.Contacts
             _repository = repository;
         }
 
-        public async Task Handle(UpdateContactCommand request, CancellationToken cancellationToken)
+        public async Task<string> Handle(UpdateContactCommand request, CancellationToken cancellationToken)
         {
-            var contact = await _repository.Get(request.Id);
+            var contacts = await _repository.GetContactsForUserAsync(request.UserId);
+            var contact = contacts.FirstOrDefault(contact => contact.Id == request.Id);
             contact.Name = request.Name;
             contact.Email = request.Email;
             contact.PhoneNumber = request.PhoneNumber;
@@ -29,6 +30,7 @@ namespace PhoneBook.Application.Handlers.Contacts
             contact.Groups = request.Groups;
 
             await _repository.Update(contact);
+            return "Contact was updated.";
         }
     }
 }

@@ -14,8 +14,4 @@
     <ProjectReference Include="..\PhoneBook.Domain\PhoneBook.Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="DTOs\Groups\" />
-  </ItemGroup>
-
 </Project>

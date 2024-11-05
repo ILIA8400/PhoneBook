@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PhoneBook.Application.Handlers.Groups
+namespace PhoneBook.Application.DTOs
 {
-    internal class GetGroupByNameHandler
+    public class BaseDto
     {
+        public int Id { get; set; }
     }
 }

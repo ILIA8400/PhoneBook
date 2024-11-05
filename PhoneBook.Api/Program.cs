@@ -26,14 +26,21 @@ builder.Configuration.AddUserSecrets("be12b960-bb41-4af9-98d2-8f11fdc978e4");
 //builder.Services.ConfigureApplicationServices();
 //builder.Services.ConfigureIdentityServices(builder.Configuration);
 //builder.Services.ConfigurePersistenceServices(builder.Configuration);
-builder.Services.AddMediatR(c => c.RegisterServicesFromAssemblies(typeof(CreateContactDto).Assembly));
+builder.Services.AddMediatR(c => c.RegisterServicesFromAssemblies(typeof(ContactDto).Assembly));
 
 //Add DbContexts
 builder.Services.AddDbContext<PhoneBookIdentityDbContext>(c=>c.UseSqlServer(builder.Configuration["ConnectionStrings:cnn1"]));
 builder.Services.AddDbContext<PhoneBookDbContext>(c => c.UseSqlServer(builder.Configuration["ConnectionStrings:cnn2"]));
 
 // Add Identity
-builder.Services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<PhoneBookIdentityDbContext>();
+builder.Services.AddIdentity<ApplicationUser, IdentityRole>(c =>
+{
+    c.Password.RequiredLength = 8;
+    c.Password.RequireNonAlphanumeric = true;
+    c.Password.RequireUppercase = true;
+    c.Password.RequireDigit = false;
+
+}).AddEntityFrameworkStores<PhoneBookIdentityDbContext>();
 
 // Repositories
 builder.Services.AddScoped<ICallHistoryRepository, CallHistoryRepository>();

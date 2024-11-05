@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace PhoneBook.Application.Commands.Contacts
 {
-    public class UpdateContactCommand : IRequest
+    public class UpdateContactCommand : IRequest<string>
     {
         public int Id { get; set; }
         [StringLength(55, MinimumLength = 3)]
@@ -22,5 +22,6 @@ namespace PhoneBook.Application.Commands.Contacts
         [StringLength(255)]
         public string? Address { get; set; }
         public ICollection<ContactGroup>? Groups { get; set; }
+        public string UserId { get; set; }
     }
 }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace PhoneBook.Application.DTOs.Contacts
 {
-    public class CreateContactDto
+    public class CreateContactResponse
     {
         public bool IsSuccess { get; set; } = true;
         public string? Message { get; set; }

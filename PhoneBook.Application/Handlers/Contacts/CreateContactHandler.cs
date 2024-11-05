@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace PhoneBook.Application.Handlers.Contacts
 {
-    public class CreateContactHandler : IRequestHandler<CreateContactCommand, CreateContactDto>
+    public class CreateContactHandler : IRequestHandler<CreateContactCommand, CreateContactResponse>
     {
         private readonly IContactRepository _repository;
 
@@ -19,7 +19,7 @@ namespace PhoneBook.Application.Handlers.Contacts
         {
             _repository = repository;
         }
-        public async Task<CreateContactDto> Handle(CreateContactCommand request, CancellationToken cancellationToken)
+        public async Task<CreateContactResponse> Handle(CreateContactCommand request, CancellationToken cancellationToken)
         {
             var contact = new Contact()
             {
@@ -28,9 +28,10 @@ namespace PhoneBook.Application.Handlers.Contacts
                 Email = request.Email,
                 Address = request.Address,
                 Groups = request.Groups,
+                UserId = request.UserId
             };
 
-            var response = new CreateContactDto();
+            var response = new CreateContactResponse();
 
             try
             {

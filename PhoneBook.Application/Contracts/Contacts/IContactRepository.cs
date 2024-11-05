@@ -10,5 +10,6 @@ namespace PhoneBook.Application.Contracts.Contacts
 {
     public interface IContactRepository : IGenericRepository<Contact>
     {
+        Task<List<Contact>> GetContactsForUserAsync(string userId);
     }
 }
