@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using PhoneBook.Api.Models;
@@ -12,11 +13,15 @@ namespace PhoneBook.Web.Controllers
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
 
-        public UserController(UserManager<ApplicationUser> userManager,SignInManager<ApplicationUser> signInManager)
+        public UserController(UserManager<ApplicationUser> userManager,
+            SignInManager<ApplicationUser> signInManager,
+            RoleManager<IdentityRole> roleManager)
         {
             this._userManager = userManager;
             this._signInManager = signInManager;
+            this._roleManager = roleManager;
         }
 
         // Post: api/User/Register
@@ -34,9 +39,13 @@ namespace PhoneBook.Web.Controllers
                 Email = model.Email
             };
 
+            if (!(await _roleManager.RoleExistsAsync("User"))) 
+                await _roleManager.CreateAsync(new IdentityRole("User"));
+
             var result = await _userManager.CreateAsync(user,model.Password);
             if (result.Succeeded)
             {
+                await _userManager.AddToRoleAsync(user,"User");
                 return Ok("Your registration process has been completed successfully.");
             }            
             return BadRequest(result.Errors.Select(c=>c.Description));
@@ -62,6 +71,7 @@ namespace PhoneBook.Web.Controllers
 
         // Post api/User/Logout
         [HttpPost("Logout")]
+        [Authorize(Roles = "User")]
         public async Task<IActionResult> Logout()
         {
             await _signInManager.SignOutAsync();
