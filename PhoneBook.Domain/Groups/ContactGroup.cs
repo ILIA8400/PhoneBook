@@ -12,5 +12,6 @@ namespace PhoneBook.Domain.Groups
     {
         public string GroupName { get; set; }
         public List<Contact> Contacts { get; set; }
+        public string UserId { get; set; }
     }
 }
