@@ -17,11 +17,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "01.Domain", "01.Domain", "{
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "02.Application", "02.Application", "{E3CE49D5-8A0F-4F4F-A4D4-9F100389EF69}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "03.Infra", "03.Infra", "{C0CAF213-89DA-408B-A8E4-1B28C14B2E66}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "03.Infrastructure", "03.Infrastructure", "{C0CAF213-89DA-408B-A8E4-1B28C14B2E66}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "04.EndPoint", "04.EndPoint", "{811B1642-D293-4059-9255-8DE71415068B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PhoneBook.Identity", "PhoneBook.Identity\PhoneBook.Identity.csproj", "{1E4F0DF0-099F-4096-B8C6-7246DBD55959}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PhoneBook.Identity", "PhoneBook.Identity\PhoneBook.Identity.csproj", "{1E4F0DF0-099F-4096-B8C6-7246DBD55959}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -2,6 +2,7 @@
 using PhoneBook.Domain.CallHistories;
 using PhoneBook.Domain.Contacts;
 using PhoneBook.Domain.Groups;
+using PhoneBook.Domain.Messages;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,9 +15,10 @@ namespace PhoneBook.Infra
     {
         #region DbSets
         public DbSet<Contact> Contacts { get; set; }
-        public DbSet<ContactGroup> Groups { get; set; }
+        public DbSet<Group> Groups { get; set; }
         public DbSet<CallHistory> CallHistories { get; set; }
         public DbSet<CallType> CallTypes { get; set; }
+        public DbSet<Message> Messages { get; set; }
         #endregion
 
         #region Ctor
