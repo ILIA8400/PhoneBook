@@ -8,10 +8,9 @@ using System.Threading.Tasks;
 
 namespace PhoneBook.Domain.Groups
 {
-    public class ContactGroup : BaseEntity
+    public class Group : BaseEntity
     {
         public string GroupName { get; set; }
         public List<Contact> Contacts { get; set; }
-        public string UserId { get; set; }
     }
 }
