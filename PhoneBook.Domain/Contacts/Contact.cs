@@ -16,5 +16,6 @@ namespace PhoneBook.Domain.Contacts
         public string? Email { get; set; }
         public string? Address { get; set; }
         public ICollection<Group>? Groups { get; set; }
+        public string UserId { get; set; }
     }
 }

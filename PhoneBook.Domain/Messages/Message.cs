@@ -13,5 +13,6 @@ namespace PhoneBook.Domain.Messages
         public string From { get; set; }
         public string To { get; set; }
         public DateTime SendTime { get; set; }
+        public string UserId { get; set; }
     }
 }
