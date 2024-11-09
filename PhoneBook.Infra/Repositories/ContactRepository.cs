@@ -48,11 +48,6 @@ namespace PhoneBook.Infra.Repositories
             return await _context.Contacts.Where(x => x.UserId == userId).ToListAsync();
         }
 
-        public async Task<List<Contact>> GetContactsForUserAsync(string userId)
-        {
-            return await _context.Contacts.Where(c=>c.Address == userId).ToListAsync();
-        }
-
         public async Task Update(Contact entity)
         {
             _context.Entry(entity).State = EntityState.Modified;

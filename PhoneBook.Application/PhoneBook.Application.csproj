@@ -30,7 +30,6 @@
     <Folder Include="Features\Contacts\Handlers\Commands\" />
     <Folder Include="Features\Contacts\Handlers\Queries\" />
     <Folder Include="Features\Contacts\Requests\Commands\" />
-    <Folder Include="Features\Contacts\Requests\Queries\" />
     <Folder Include="Features\Groups\Handlers\Commands\" />
     <Folder Include="Features\Groups\Handlers\Queries\" />
     <Folder Include="Features\Groups\Requests\Commands\" />

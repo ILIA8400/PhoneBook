@@ -42,7 +42,7 @@ namespace PhoneBook.Infra.Repositories
             return await _context.CallHistories.SingleOrDefaultAsync(c => c.Id == id && c.UserId == userId);
         }
 
-        public async Task<IReadOnlyList<CallHistory>> GetAll(string userId)
+        public async Task<List<CallHistory>> GetAll(string userId)
         {
             return await _context.CallHistories.Where(x => x.UserId == userId).ToListAsync();
         }

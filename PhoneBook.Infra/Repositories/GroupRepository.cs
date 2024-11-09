@@ -48,12 +48,12 @@ namespace PhoneBook.Infra.Repositories
             return await _context.Groups.Where(x => x.UserId == userId).ToListAsync();
         }
 
-        public async Task<List<ContactGroup>> GetAllContactGroupUser(string user)
+        public async Task<List<Group>> GetAllContactGroupUser(string user)
         {
             return await _context.Groups.Where(c=>c.UserId == user).ToListAsync();
         }
 
-        public async Task Update(ContactGroup entity)
+        public async Task Update(Group entity)
         {
             _context.Entry(entity).State = EntityState.Modified;
             await _context.SaveChangesAsync();

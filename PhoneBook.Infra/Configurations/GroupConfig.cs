@@ -10,9 +10,9 @@ using System.Threading.Tasks;
 
 namespace PhoneBook.Infra.Configurations
 {
-    public class GroupConfig : IEntityTypeConfiguration<ContactGroup>
+    public class GroupConfig : IEntityTypeConfiguration<Group>
     {
-        public void Configure(EntityTypeBuilder<ContactGroup> builder)
+        public void Configure(EntityTypeBuilder<Group> builder)
         {
             // Table Name
             builder.ToTable("groups");

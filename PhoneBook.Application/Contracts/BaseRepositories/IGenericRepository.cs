@@ -9,7 +9,7 @@ namespace PhoneBook.Application.Contracts.BaseRepositories
     public interface IGenericRepository<T> where T : class
     {
         Task<T> Get(int id,string userId);
-        Task<IReadOnlyList<T>> GetAll(string userId);
+        Task<List<T>> GetAll(string userId);
         Task<bool> Exist(int id, string userId);
         Task<T> Add(T entity);
         Task Update(T entity);
