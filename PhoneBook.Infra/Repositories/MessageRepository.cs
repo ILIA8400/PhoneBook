@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using PhoneBook.Application.Contracts.Messages;
+using PhoneBook.Domain.Contacts;
 using PhoneBook.Domain.Messages;
 using PhoneBook.Infra;
 using System;
@@ -32,20 +33,20 @@ namespace PhoneBook.Persistence.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async Task<bool> Exist(int id)
+        public async Task<bool> Exist(int id, string userId)
         {
-            var entity = await Get(id);
+            var entity = await Get(id, userId);
             return entity != null;
         }
 
-        public async Task<Message> Get(int id)
+        public async Task<Message> Get(int id, string userId)
         {
-            return await _context.Messages.FindAsync(id);
+            return await _context.Messages.SingleOrDefaultAsync(c => c.Id == id && c.UserId == userId);
         }
 
-        public async Task<IReadOnlyList<Message>> GetAll()
+        public async Task<List<Message>> GetAll(string userId)
         {
-            return await _context.Messages.ToListAsync();
+            return await _context.Messages.Where(x => x.UserId == userId).ToListAsync();
         }
 
         public async Task Update(Message entity)

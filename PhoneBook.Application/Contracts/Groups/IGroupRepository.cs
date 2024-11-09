@@ -8,8 +8,7 @@ using System.Threading.Tasks;
 
 namespace PhoneBook.Application.Contracts.Groups
 {
-    public interface IGroupRepository : IGenericRepository<ContactGroup>
+    public interface IGroupRepository : IGenericRepository<Group>
     {
-        Task<List<ContactGroup>> GetAllContactGroupUser(string user);
     }
 }

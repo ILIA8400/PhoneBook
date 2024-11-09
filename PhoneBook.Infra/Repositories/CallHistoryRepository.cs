@@ -31,20 +31,20 @@ namespace PhoneBook.Infra.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async Task<bool> Exist(int id)
+        public async Task<bool> Exist(int id, string userId)
         {
-            var entity = await Get(id);
+            var entity = await Get(id,userId);
             return entity != null;
         }
 
-        public async Task<CallHistory> Get(int id)
+        public async Task<CallHistory> Get(int id,string userId)
         {
-            return await _context.CallHistories.FindAsync(id);
+            return await _context.CallHistories.SingleOrDefaultAsync(c => c.Id == id && c.UserId == userId);
         }
 
-        public async Task<IReadOnlyList<CallHistory>> GetAll()
+        public async Task<IReadOnlyList<CallHistory>> GetAll(string userId)
         {
-            return await _context.CallHistories.ToListAsync();
+            return await _context.CallHistories.Where(x => x.UserId == userId).ToListAsync();
         }
 
         public async Task Update(CallHistory entity)

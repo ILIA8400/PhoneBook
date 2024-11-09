@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using PhoneBook.Application.Contracts.Contacts;
+using PhoneBook.Domain.CallHistories;
 using PhoneBook.Domain.Contacts;
 using System;
 using System.Collections.Generic;
@@ -31,25 +32,25 @@ namespace PhoneBook.Infra.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async Task<bool> Exist(int id)
+        public async Task<bool> Exist(int id, string userId)
         {
-            var entity = await Get(id);
+            var entity = await Get(id, userId);
             return entity != null;
         }
 
-        public async Task<Contact> Get(int id)
+        public async Task<Contact> Get(int id, string userId)
         {
-            return await _context.Contacts.FindAsync(id);
+            return await _context.Contacts.SingleOrDefaultAsync(c => c.Id == id && c.UserId == userId);
         }
 
-        public async Task<IReadOnlyList<Contact>> GetAll()
+        public async Task<List<Contact>> GetAll(string userId)
         {
-            return await _context.Contacts.ToListAsync();
+            return await _context.Contacts.Where(x => x.UserId == userId).ToListAsync();
         }
 
         public async Task<List<Contact>> GetContactsForUserAsync(string userId)
         {
-            return await _context.Contacts.Where(c=>c.UserId == userId).ToListAsync();
+            return await _context.Contacts.Where(c=>c.Address == userId).ToListAsync();
         }
 
         public async Task Update(Contact entity)

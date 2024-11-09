@@ -8,11 +8,11 @@ namespace PhoneBook.Application.Contracts.BaseRepositories
 {
     public interface IGenericRepository<T> where T : class
     {
-        Task<T> Get(int id,int userId);
-        Task<IReadOnlyList<T>> GetAll(int userId);
-        Task<bool> Exist(int id, int userId);
-        Task<T> Add(T entity, int userId);
-        Task Update(T entity, int userId);
-        Task Delete(T entity, int userId);
+        Task<T> Get(int id,string userId);
+        Task<IReadOnlyList<T>> GetAll(string userId);
+        Task<bool> Exist(int id, string userId);
+        Task<T> Add(T entity);
+        Task Update(T entity);
+        Task Delete(T entity);
     }
 }

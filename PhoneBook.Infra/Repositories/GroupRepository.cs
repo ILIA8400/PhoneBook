@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using PhoneBook.Application.Contracts.Groups;
+using PhoneBook.Domain.Contacts;
 using PhoneBook.Domain.Groups;
 using System;
 using System.Collections.Generic;
@@ -18,33 +19,33 @@ namespace PhoneBook.Infra.Repositories
             _context = context;
         }
 
-        public async Task<ContactGroup> Add(ContactGroup entity)
+        public async Task<Group> Add(Group entity)
         {
             await _context.AddAsync(entity);
             await _context.SaveChangesAsync();
             return entity;
         }
 
-        public async Task Delete(ContactGroup entity)
+        public async Task Delete(Group entity)
         {
             _context.Remove(entity);
             await _context.SaveChangesAsync();
         }
 
-        public async Task<bool> Exist(int id)
+        public async Task<bool> Exist(int id, string userId)
         {
-            var entity = await Get(id);
+            var entity = await Get(id, userId);
             return entity != null;
         }
 
-        public async Task<ContactGroup> Get(int id)
+        public async Task<Group> Get(int id, string userId)
         {
-            return await _context.Groups.FindAsync(id);
+            return await _context.Groups.SingleOrDefaultAsync(c => c.Id == id && c.UserId == userId);
         }
 
-        public async Task<IReadOnlyList<ContactGroup>> GetAll()
+        public async Task<List<Group>> GetAll(string userId)
         {
-            return await _context.Groups.ToListAsync();
+            return await _context.Groups.Where(x => x.UserId == userId).ToListAsync();
         }
 
         public async Task<List<ContactGroup>> GetAllContactGroupUser(string user)
