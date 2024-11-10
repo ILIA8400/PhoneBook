@@ -11,9 +11,13 @@ namespace PhoneBook.Web.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
+        #region Fields
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
-        private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly RoleManager<IdentityRole> _roleManager; 
+        #endregion
+
+        #region Ctor
 
         public UserController(UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
@@ -22,7 +26,10 @@ namespace PhoneBook.Web.Controllers
             this._userManager = userManager;
             this._signInManager = signInManager;
             this._roleManager = roleManager;
-        }
+        } 
+        #endregion
+
+        #region Register
 
         // Post: api/User/Register
         [HttpPost("Register")]
@@ -39,18 +46,21 @@ namespace PhoneBook.Web.Controllers
                 Email = model.Email
             };
 
-            if (!(await _roleManager.RoleExistsAsync("User"))) 
+            if (!(await _roleManager.RoleExistsAsync("User")))
                 await _roleManager.CreateAsync(new IdentityRole("User"));
 
-            var result = await _userManager.CreateAsync(user,model.Password);
+            var result = await _userManager.CreateAsync(user, model.Password);
             if (result.Succeeded)
             {
-                await _userManager.AddToRoleAsync(user,"User");
+                await _userManager.AddToRoleAsync(user, "User");
                 return Ok("Your registration process has been completed successfully.");
-            }            
-            return BadRequest(result.Errors.Select(c=>c.Description));
-            
-        }
+            }
+            return BadRequest(result.Errors.Select(c => c.Description));
+
+        } 
+        #endregion
+
+        #region Login
 
         // Post: api/User/Login
         [HttpPost("Login")]
@@ -60,14 +70,17 @@ namespace PhoneBook.Web.Controllers
             {
                 return BadRequest("Model is not valid !");
             }
-          
-            var result = await _signInManager.PasswordSignInAsync(model.Email,model.Password,false,false);
+
+            var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, true, false);
             if (result.Succeeded)
             {
                 return Ok("Login was successful.");
             }
             return BadRequest("User Name or Password is not valid !!");
-        }
+        } 
+        #endregion
+
+        #region Logout
 
         // Post api/User/Logout
         [HttpPost("Logout")]
@@ -76,7 +89,8 @@ namespace PhoneBook.Web.Controllers
         {
             await _signInManager.SignOutAsync();
             return Ok("You are logout");
-        }
+        } 
+        #endregion
 
     }
 }
