@@ -1,106 +1,73 @@
-﻿using MediatR;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using PhoneBook.Application.Commands.Contacts;
-using PhoneBook.Application.DTOs;
-using PhoneBook.Application.DTOs.Contacts;
-using PhoneBook.Application.Queries.Contacts;
-using System.Security.Claims;
+using PhoneBook.Application.Features.Contacts.Requests.Queries;
+using Microsoft.AspNetCore.Identity;
+using MediatR;
+using PhoneBook.Application.DTOs.Contact;
+using PhoneBook.Application.Features.Contacts.Requests.Commands;
+using PhoneBook.Application.Exceptions;
 
-namespace PhoneBook.Web.Controllers
+// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+
+namespace PhoneBook.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(Roles = "User")]
-
+    [Authorize]
     public class ContactController : ControllerBase
     {
-        private readonly IMediator _mediator;
+        private readonly IMediator mediator;
 
         public ContactController(IMediator mediator)
         {
-            this._mediator = mediator;
+            this.mediator = mediator;
         }
 
-        // Get: api/Contact/GetAll
-        [HttpGet("GetAll")]
-        public async Task<IActionResult> GetAll()
+        // GET: api/<ContactController>
+        [HttpGet]
+        public async Task<IActionResult> Get()
         {
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            return Ok(await _mediator.Send(new GetAllContactsQuery().UserId = userId));
-        }
-
-        // Get: api/Contact/{id}
-        [HttpGet("{id:int}")]
-        public async Task<IActionResult> Get(int id)
-        {
-            var request = new GetContactByIdQuery()
+            var request = new GetAllContactsRequest()
             {
-                Id = id,
-                UserId = User.FindFirstValue(ClaimTypes.NameIdentifier)
+                UserId = User.Identity.Name
             };
 
-            return Ok(await _mediator.Send(request));
+            return Ok(await mediator.Send(request));
         }
 
-        // Post: api/Contact/Create
-        [HttpPost("Create")]
-        public async Task<IActionResult> Create(ContactDto dto)
+        // GET api/<ContactController>/5
+        [HttpGet("{id}")]
+        public string Get(int id)
         {
-            if(!ModelState.IsValid)
+            return "value";
+        }
+
+        // POST api/<ContactController>
+        [HttpPost]
+        public async Task<IActionResult> Post([FromBody] CreateContactDto dto)
+        {
+            var request = new CreateContactCommand { CreateContactDto = dto, UserId = User.Identity.Name };
+            try
             {
-                return BadRequest("model not valid");
+                var result = await mediator.Send(request);
             }
-            var command = new CreateContactCommand()
+            catch (ValidationException ex)
             {
-                Name = dto.Name,
-                Email = dto.Email,
-                PhoneNumber = dto.PhoneNumber,
-                Groups  = dto.Groups,
-                Address = dto.Address,
-                UserId = User.FindFirstValue(ClaimTypes.NameIdentifier)
-            };
-            var response = await _mediator.Send(command);
-            return Ok(response);
+                return BadRequest(ex.Errors);
+            }
+            return Ok();
         }
 
-        // Put: api/Contact/Update
-        [HttpPut("Update")]
-        public async Task<IActionResult> Update(UpdateContactDto dto)
+        // PUT api/<ContactController>/5
+        [HttpPut("{id}")]
+        public void Put(int id, [FromBody] string value)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest("model not valid");
-            }
-            var command = new UpdateContactCommand
-            {
-                Name = dto.Name,
-                Email = dto.Email,
-                PhoneNumber = dto.PhoneNumber,
-                Groups = dto.Groups,
-                Address = dto.Address,
-                UserId = User.FindFirstValue(ClaimTypes.NameIdentifier)
-            };
-            var response = await _mediator.Send(command);
-            return Ok(response);
         }
 
-        // Delete: api/Contact/Delete
-        [HttpDelete("Delete")]
-        public async Task<IActionResult> Delete(DeleteContactDto dto)
+        // DELETE api/<ContactController>/5
+        [HttpDelete("{id}")]
+        public void Delete(int id)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest("model not valid");
-            }
-            var command = new DeleteContactCommand()
-            {
-                Id = dto.Id,
-                UserId = User.FindFirstValue(ClaimTypes.NameIdentifier)
-            };
-            var response = await _mediator.Send(command);
-            return NoContent();
         }
     }
 }
