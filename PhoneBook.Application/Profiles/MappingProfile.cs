@@ -14,6 +14,7 @@ namespace PhoneBook.Application.Profiles
         public MappingProfile()
         {
             CreateMap<Contact,CreateContactDto>().ReverseMap();
+            CreateMap<Contact, UpdateContactDto>().ReverseMap();
         }
     }
 }

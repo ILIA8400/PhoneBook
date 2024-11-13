@@ -1,14 +1,16 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using PhoneBook.Application.Contracts.BaseRepositories;
-using PhoneBook.Application.Contracts.CallHistories;
 using PhoneBook.Application.Contracts.Contacts;
 using PhoneBook.Application.Contracts.Groups;
-using PhoneBook.Application.DTOs.Contacts;
 using PhoneBook.Infra;
 using PhoneBook.Infra.Repositories;
 using PhoneBook.Identity;
 using PhoneBook.Identity.Models;
+using FluentValidation;
+using PhoneBook.Application.Features.Contacts.Requests.Queries;
+using PhoneBook.Application.DTOs.Contact;
+using PhoneBook.Application.DTOs.Contact.Validators;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -26,7 +28,10 @@ builder.Configuration.AddUserSecrets("be12b960-bb41-4af9-98d2-8f11fdc978e4");
 //builder.Services.ConfigureApplicationServices();
 //builder.Services.ConfigureIdentityServices(builder.Configuration);
 //builder.Services.ConfigurePersistenceServices(builder.Configuration);
-builder.Services.AddMediatR(c => c.RegisterServicesFromAssemblies(typeof(ContactDto).Assembly));
+
+builder.Services.AddMediatR(c => c.RegisterServicesFromAssemblies(typeof(GetAllContactsRequest).Assembly));
+
+builder.Services.AddAutoMapper(typeof(GetAllContactsRequest).Assembly);
 
 //Add DbContexts
 builder.Services.AddDbContext<PhoneBookIdentityDbContext>(c=>c.UseSqlServer(builder.Configuration["ConnectionStrings:cnn1"]));
@@ -43,10 +48,16 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>(c =>
 }).AddEntityFrameworkStores<PhoneBookIdentityDbContext>();
 
 // Repositories
-builder.Services.AddScoped<ICallHistoryRepository, CallHistoryRepository>();
 builder.Services.AddScoped<IContactRepository, ContactRepository>();
-builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 builder.Services.AddScoped<IGroupRepository, GroupRepository>();
+
+// Fluent Validation
+builder.Services.AddScoped<IValidator<CreateContactDto>, CreateContactValidator>();
+
+//{
+//    "email": "ilia@example.com",
+//  "password": "iliA.1384"
+//}
 
 var app = builder.Build();
 
