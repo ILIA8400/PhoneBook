@@ -6,6 +6,9 @@ using MediatR;
 using PhoneBook.Application.DTOs.Contact;
 using PhoneBook.Application.Features.Contacts.Requests.Commands;
 using PhoneBook.Application.Exceptions;
+using Azure;
+using PhoneBook.Domain.Contacts;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -37,9 +40,18 @@ namespace PhoneBook.Api.Controllers
 
         // GET api/<ContactController>/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public async Task<IActionResult> Get(int id)
         {
-            return "value";
+            var request = new GetContactRequest() { Id = id , Userid = User.Identity.Name};
+            try
+            {
+                var contact = await mediator.Send(request);
+                return Ok(contact);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }          
         }
 
         // POST api/<ContactController>
@@ -50,24 +62,30 @@ namespace PhoneBook.Api.Controllers
             try
             {
                 var result = await mediator.Send(request);
+                return Ok(result);
             }
             catch (ValidationException ex)
             {
                 return BadRequest(ex.Errors);
-            }
-            return Ok();
+            }            
         }
 
         // PUT api/<ContactController>/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public async Task<IActionResult> Put(int id,[FromBody] UpdateContactDto updateContactDto)
         {
+            var request = new UpdateContactCommand { updateContactDto = updateContactDto, UserId = User.Identity.Name, Id = id };
+            await mediator.Send(request);
+            return NoContent();
         }
 
         // DELETE api/<ContactController>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public async Task<ActionResult> Delete(int id)
         {
+            var command = new DeleteContactCommand { Id = id, UserId = User.Identity.Name };
+            await mediator.Send(command);
+            return NoContent();
         }
     }
 }

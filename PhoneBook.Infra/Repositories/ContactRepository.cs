@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using PhoneBook.Application.Contracts.Contacts;
-using PhoneBook.Domain.CallHistories;
 using PhoneBook.Domain.Contacts;
 using System;
 using System.Collections.Generic;
