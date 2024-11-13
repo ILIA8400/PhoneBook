@@ -16,9 +16,6 @@ namespace PhoneBook.Infra
         #region DbSets
         public DbSet<Contact> Contacts { get; set; }
         public DbSet<Group> Groups { get; set; }
-        public DbSet<CallHistory> CallHistories { get; set; }
-        public DbSet<CallType> CallTypes { get; set; }
-        public DbSet<Message> Messages { get; set; }
         #endregion
 
         #region Ctor
