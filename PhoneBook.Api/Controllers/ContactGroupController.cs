@@ -1,71 +1,44 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using PhoneBook.Application.Commands.Groups;
-using PhoneBook.Application.Queries.Groups;
-using System.Security.Claims;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
+using PhoneBook.Application.DTOs.ContactGroup;
+using PhoneBook.Application.Features.Groups.Requests.Commands;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
-namespace PhoneBook.Web.Controllers
+namespace PhoneBook.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(Roles = "User")]
+    [Authorize]
     public class ContactGroupController : ControllerBase
     {
-        private readonly IMediator _mediator;
+        private readonly IMediator mediator;
 
         public ContactGroupController(IMediator mediator)
         {
-            this._mediator = mediator;
+            this.mediator = mediator;
         }
 
-        // GET: api/<ContactGroupController>/GetAll
-        [HttpGet("GetAll")]
-        public async Task<IActionResult> GetAll()
+        // Put : api/Group/AddContactsToGroup?{Id}
+        [HttpPut]
+        public async Task<IActionResult> AddContactsToGroup([FromBody] ContactGroupDto dto, [FromQuery] int groupId)
         {
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var query = new GetAllGroupsRequest { UserId = userId };
-            var result = await _mediator.Send(query);
-            return Ok(result);
+            var request = new AddContactsToGroupCommand() { UserId = User.Identity.Name, GroupId = groupId, ContactGroupDto = dto };
+            await mediator.Send(request);
+            return NoContent();
         }
 
-        // POST api/<ContactGroupController>/Create
-        [HttpPost("Create")]
-        public async Task<IActionResult> Create([FromBody] CreateGroupCommand command)
+        // PUT api/<ContactGroupController>/5
+        [HttpPut("{id}")]
+        public void Put(int id, [FromBody] string value)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest("model not valid");
-            }
-            command.UserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var result = await _mediator.Send(command);
-            return Ok(result);
         }
 
-        // PUT api/<ContactGroupController>/Update
-        [HttpPut("Update")]
-        public async Task<IActionResult> Update([FromBody] UpdateGroupCommand command)
+        // DELETE api/<ContactGroupController>/5
+        [HttpDelete("{id}")]
+        public void Delete(int id)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest("model not valid");
-            }
-            command.UserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var result = await _mediator.Send(command);
-            return Ok(result);
-        }
-
-        // DELETE api/<ContactGroupController>/Delete/{id}
-        [HttpDelete("Delete/{id:int}")]
-        public async Task<IActionResult> Delete(int id)
-        {
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var command = new DeleteGroupCommand { Id = id, UserId = userId };
-            var result = await _mediator.Send(command);
-            return Ok(result);
         }
     }
 }
