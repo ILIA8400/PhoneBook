@@ -40,12 +40,25 @@ namespace PhoneBook.Infra.Repositories
 
         public async Task<Group> Get(int id, string userId)
         {
-            return await _context.Groups.SingleOrDefaultAsync(c => c.Id == id && c.UserId == userId);
+            var group = await _context.Groups.SingleOrDefaultAsync(c => c.Id == id && c.UserId == userId);
+            foreach (var item in group.Contacts)
+            {
+                item.Groups = null;
+            }
+            return group;
         }
 
         public async Task<List<Group>> GetAll(string userId)
         {
-            return await _context.Groups.Where(x => x.UserId == userId).ToListAsync();
+            var groups = await _context.Groups.Where(x => x.UserId == userId).Include(x=>x.Contacts).ToListAsync();
+            foreach (var group in groups)
+            {
+                foreach (var contact in group.Contacts)
+                {
+                    contact.Groups = null;
+                }
+            }
+            return groups;
         }
 
         public async Task<List<Group>> GetAllContactGroupUser(string user)
@@ -56,6 +69,11 @@ namespace PhoneBook.Infra.Repositories
         public async Task Update(Group entity)
         {
             _context.Entry(entity).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task SaveChanges()
+        {
             await _context.SaveChangesAsync();
         }
     }

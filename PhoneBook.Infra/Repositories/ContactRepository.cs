@@ -39,17 +39,35 @@ namespace PhoneBook.Infra.Repositories
 
         public async Task<Contact> Get(int id, string userId)
         {
-            return await _context.Contacts.SingleOrDefaultAsync(c => c.Id == id && c.UserId == userId);
+            var contact = await _context.Contacts.SingleOrDefaultAsync(c => c.Id == id && c.UserId == userId);
+            foreach (var group in contact.Groups)
+            {
+                group.Contacts = null;
+            }
+            return contact;
         }
 
         public async Task<List<Contact>> GetAll(string userId)
         {
-            return await _context.Contacts.Where(x => x.UserId == userId).ToListAsync();
+            var contacts = await _context.Contacts.Where(x => x.UserId == userId).Include(x => x.Groups).ToListAsync();
+            foreach (var contact in contacts)
+            {
+                foreach (var group in contact.Groups)
+                {
+                    group.Contacts = null;
+                }
+            }
+            return contacts;
         }
 
         public async Task Update(Contact entity)
         {
             _context.Entry(entity).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task SaveChanges()
+        {
             await _context.SaveChangesAsync();
         }
     }
