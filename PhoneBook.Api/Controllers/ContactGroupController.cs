@@ -27,18 +27,15 @@ namespace PhoneBook.Api.Controllers
             var request = new AddContactsToGroupCommand() { UserId = User.Identity.Name, GroupId = groupId, ContactGroupDto = dto };
             await mediator.Send(request);
             return NoContent();
-        }
-
-        // PUT api/<ContactGroupController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
+        }        
 
         // DELETE api/<ContactGroupController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
+        [HttpDelete("{groupId}")]
+        public async Task<IActionResult> Remove(int groupId, ContactGroupDto dto)
         {
+            var request = new DeleteContactGroupCommand() { UserId = User.Identity.Name, GroupId = groupId, ContactGroupDto = dto };
+            await mediator.Send(request);
+            return NoContent();
         }
     }
 }
