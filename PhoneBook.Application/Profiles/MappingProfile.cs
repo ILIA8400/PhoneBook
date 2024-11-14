@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using PhoneBook.Application.DTOs.Contact;
+using PhoneBook.Application.DTOs.Group;
 using PhoneBook.Domain.Contacts;
+using PhoneBook.Domain.Groups;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,6 +17,8 @@ namespace PhoneBook.Application.Profiles
         {
             CreateMap<Contact,CreateContactDto>().ReverseMap();
             CreateMap<Contact, UpdateContactDto>().ReverseMap();
+            CreateMap<Group, CreateGroupDto>().ReverseMap();
+            CreateMap<Group, UpdateGroupDto>().ReverseMap();
         }
     }
 }
