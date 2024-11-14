@@ -17,28 +17,4 @@
     <ProjectReference Include="..\PhoneBook.Domain\PhoneBook.Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="DTOs\CallHistory\Validators\" />
-    <Folder Include="DTOs\Contact\Validators\" />
-    <Folder Include="DTOs\Group\Validators\" />
-    <Folder Include="DTOs\Message\Validators\" />
-    <Folder Include="Exceptions\" />
-    <Folder Include="Features\CallHistories\Handlers\Commands\" />
-    <Folder Include="Features\CallHistories\Handlers\Queries\" />
-    <Folder Include="Features\CallHistories\Requests\Commands\" />
-    <Folder Include="Features\CallHistories\Requests\Queries\" />
-    <Folder Include="Features\Contacts\Handlers\Commands\" />
-    <Folder Include="Features\Contacts\Handlers\Queries\" />
-    <Folder Include="Features\Contacts\Requests\Commands\" />
-    <Folder Include="Features\Groups\Handlers\Commands\" />
-    <Folder Include="Features\Groups\Handlers\Queries\" />
-    <Folder Include="Features\Groups\Requests\Commands\" />
-    <Folder Include="Features\Groups\Requests\Queries\" />
-    <Folder Include="Features\Messages\Handlers\Commands\" />
-    <Folder Include="Features\Messages\Handlers\Queries\" />
-    <Folder Include="Features\Messages\Requests\Commands\" />
-    <Folder Include="Features\Messages\Requests\Queries\" />
-    <Folder Include="Profiles\" />
-  </ItemGroup>
-
 </Project>
