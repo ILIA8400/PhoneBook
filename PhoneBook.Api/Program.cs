@@ -1,17 +1,6 @@
-using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Identity;
-using PhoneBook.Application.Contracts.Contacts;
-using PhoneBook.Application.Contracts.Groups;
-using PhoneBook.Infra;
-using PhoneBook.Infra.Repositories;
-using PhoneBook.Identity;
-using PhoneBook.Identity.Models;
-using FluentValidation;
-using PhoneBook.Application.Features.Contacts.Requests.Queries;
-using PhoneBook.Application.DTOs.Contact;
-using PhoneBook.Application.DTOs.Contact.Validators;
-using Microsoft.AspNetCore.Mvc;
 using PhoneBook.Application;
+using PhoneBook.Infra.Identity;
+using PhoneBook.Infra.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -27,27 +16,8 @@ builder.Configuration.AddUserSecrets("be12b960-bb41-4af9-98d2-8f11fdc978e4");
 
 // Services
 builder.Services.ConfigureApplicationServices();
-//builder.Services.ConfigureIdentityServices(builder.Configuration);
-//builder.Services.ConfigurePersistenceServices(builder.Configuration);
-
-//Add DbContexts
-builder.Services.AddDbContext<PhoneBookIdentityDbContext>(c=>c.UseSqlServer(builder.Configuration["ConnectionStrings:cnn1"]));
-builder.Services.AddDbContext<PhoneBookDbContext>(c => c.UseSqlServer(builder.Configuration["ConnectionStrings:cnn2"]));
-
-// Add Identity
-builder.Services.AddIdentity<ApplicationUser, IdentityRole>(c =>
-{
-    c.Password.RequiredLength = 8;
-    c.Password.RequireNonAlphanumeric = true;
-    c.Password.RequireUppercase = true;
-    c.Password.RequireDigit = false;
-
-}).AddEntityFrameworkStores<PhoneBookIdentityDbContext>();
-
-// Repositories
-builder.Services.AddScoped<IContactRepository, ContactRepository>();
-builder.Services.AddScoped<IGroupRepository, GroupRepository>();
-
+builder.Services.ConfigureIdentityServices(builder.Configuration);
+builder.Services.ConfigurePersistenceServices(builder.Configuration);
 
 var app = builder.Build();
 
